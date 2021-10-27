@@ -13,5 +13,5 @@ struct DictDB <: DBContainer
     feature_extractor::FeatureExtractor
     string_collection::Vector{AbstractString}
     string_size_map::AbstractSet{AbstractDict}
-    string_feature_map::AbstractDict{AbstractDict}
+    string_feature_map::AbstractSet{AbstractDict}
 end

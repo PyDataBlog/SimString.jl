@@ -1,6 +1,5 @@
 module SimString
 
-# Write your package code here.
 
 ######### Import modules & utils ################
 include("measures.jl")
@@ -13,7 +12,8 @@ include("utils.jl")
 ####### Global export of user API #######
 export Dice, Jaccard, Cosine,
     DictCollection,
-    CharacterNGrams, WordNGrams
+    CharacterNGrams, WordNGrams,
+    make_db, add!
 
 
 

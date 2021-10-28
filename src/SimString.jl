@@ -5,6 +5,7 @@ module SimString
 include("measures.jl")
 include("features.jl")
 include("db_collection.jl")
+include("search.jl")
 include("utils.jl")
 
 
@@ -13,7 +14,7 @@ include("utils.jl")
 export Dice, Jaccard, Cosine,
     DictCollection,
     CharacterNGrams, WordNGrams,
-    make_db, add!
+    make_db, add!, search
 
 
 

@@ -25,12 +25,14 @@ end
 """
 """
 function extract_features(extractor::CharacterNGrams, str::AbstractString)
+    str = string(extractor.padder, str, extractor.padder)
 
+    return Set( str[i+1:i+extractor.n] for i in 0: (length(str) - extractor.n) )
 end
 
 
 """
 """
 function extract_features(extractor::WordNGrams, str::AbstractString)
-
+    str = string(extractor.padder, str, extractor.padder)
 end

@@ -10,11 +10,11 @@ abstract type AbstractSimStringDB end
 # abstract type DBContainer end
 
 
-"""
-"""
-struct DictDB <: AbstractSimStringDB
-    feature_extractor::FeatureExtractor
-end
+# """
+# """
+# struct DictDB <: AbstractSimStringDB
+#     feature_extractor::FeatureExtractor
+# end
 
 
 # """

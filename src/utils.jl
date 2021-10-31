@@ -13,17 +13,3 @@ function add!(db::AbstractSimStringDB, str::AbstractString)
     push!(db.string_collection, str)
     return db
 end
-
-
-"""
-"""
-function pad_string(x::AbstractString, padder::AbstractString)
-    return string(padder, x, padder)
-end
-
-
-"""
-"""
-function n_grams(x::AbstractString, n::Integer)
-    return [x[i+1: i+n] for i in 0:length(x) - n]
-end

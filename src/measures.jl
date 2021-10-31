@@ -7,3 +7,4 @@ struct Dice <: AbstractSimilarityMeasure end
 struct Jaccard <: AbstractSimilarityMeasure end
 
 struct Cosine <: AbstractSimilarityMeasure end
+

@@ -12,9 +12,9 @@ include("utils.jl")
 
 ####### Global export of user API #######
 export Dice, Jaccard, Cosine,
-    DictCollection,
+    DictDB,
     CharacterNGrams, WordNGrams,
-    make_db, add!, search
+    add!, search
 
 
 

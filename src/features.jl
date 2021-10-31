@@ -25,14 +25,15 @@ end
 """
 """
 function extract_features(extractor::CharacterNGrams, str::AbstractString)
-    str = string(extractor.padder, str, extractor.padder)
-
-    return Set( str[i+1:i+extractor.n] for i in 0: (length(str) - extractor.n) )
+    str = pad_string(str, extractor.n)
+    return n_grams(str, extractor.n)
 end
 
 
 """
 """
 function extract_features(extractor::WordNGrams, str::AbstractString)
-    str = string(extractor.padder, str, extractor.padder)
+    str = pad_string(str, extractor.n)
+    split_words = split(str, extractor.splitter)
+    return n_grams(split_words, extractor.n)
 end

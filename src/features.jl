@@ -1,9 +1,6 @@
 # Feature Extraction Definitions
 
-"""
-Abstract type for feature extraction structs
-"""
-abstract type FeatureExtractor end
+
 
 
 """

@@ -4,11 +4,10 @@ module SimString
 using Dictionaries
 
 ######### Import modules & utils ################
-include("measures.jl")
-include("features.jl")
 include("db_collection.jl")
+include("features.jl")
+include("measures.jl")
 include("search.jl")
-include("utils.jl")
 
 
 

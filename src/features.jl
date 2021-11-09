@@ -1,8 +1,5 @@
 # Feature Extraction Definitions
 
-
-
-
 """
 Feature extraction on character-level ngrams
 """
@@ -44,12 +41,12 @@ end
 """
 Internal function to create character-level ngrams features from an AbstractString
 """
-function n_grams(x::AbstractString, n::Int)
+function n_grams(extractor::CharacterNGrams, x, n)
     # A list of n-grams of x
     init_ngrams = [x[i+1: i+n] for i in 0:length(x) - n]
 
     # Return counted n-grams (including duplicates)
-    return cummulative_ngram_count(init_ngrams)
+    return cummulative_ngram_count(extractor, init_ngrams)
 
 end
 
@@ -57,29 +54,31 @@ end
 """
 Internal function to create word-level ngrams from an AbstractVector
 """
-function n_grams(x::AbstractVector, n::Int)
-    return [x[i+1: i+n] for i in 0:length(x) - n]
+function n_grams(extractor::WordNGrams, x, n)
+    # return [x[i+1: i+n] for i in 0:length(x) - n]
     # return [tuple(x[i+1: i+n]...) for i in 0:length(x) - n]
+    init_grams = [x[i+1: i+n] for i in 0:length(x) - n]
+    return cummulative_ngram_count(extractor, init_grams)
 end
 
 
 """
 Internal function to generate character-level ngrams features from an AbstractString
 """
-function extract_features(extractor::CharacterNGrams, str::AbstractString)
+function extract_features(extractor::CharacterNGrams, str)
     n = extractor.n - 1 == 0 ? 1 : extractor.n - 1
     str = pad_string(str, repeat(extractor.padder, n))
-    return n_grams(str, extractor.n)
+    return n_grams(extractor, str, extractor.n)
 end
 
 
 """
 Internal function to generate word-level ngrams features from an AbstractString
 """
-function extract_features(extractor::WordNGrams, str::AbstractString)
+function extract_features(extractor::WordNGrams, str)
     words_split = split(str, extractor.splitter)
     padded_words = pad_string(words_split, extractor.padder)
-    return n_grams(padded_words, extractor.n)
+    return n_grams(extractor, padded_words, extractor.n)
 end
 
 
@@ -88,9 +87,9 @@ end
 # SimString.extract_features(WordNGrams(2, " ", " "), "You are cool.")
 
 """
-Internal function to count and pad generated ngrams (including duplicates)
+Internal function to count and pad generated character-level ngrams (including duplicates)
 """
-function cummulative_ngram_count(x)
+function cummulative_ngram_count(extractor::CharacterNGrams, x)
     p1 = sortperm(x)
     p2 = sortperm(p1)
     x = sort(x)
@@ -105,6 +104,32 @@ function cummulative_ngram_count(x)
         counter = i == last_i ? counter + 1 : 1
         last_i = i
         push!(results, string(i, "#", counter))
+    end
+    return results[p2]
+end
+
+
+"""
+Internal function to count and pad generated character-level ngrams (including duplicates)
+"""
+function cummulative_ngram_count(extractor::WordNGrams, x)
+    p1 = sortperm(x)
+    p2 = sortperm(p1)
+    x = sort(x)
+
+    results = []
+    counter = 0
+    last_i, rest = Iterators.peel(x)
+
+    push!(last_i, "#$(counter += 1)")
+    push!(results, last_i)
+
+    for i in rest
+        counter = i == last_i[1:extractor.n] ? counter + 1 : 1
+        last_i = i
+
+        push!(last_i, "#$(counter)")
+        push!(results, last_i)
     end
     return results[p2]
 end

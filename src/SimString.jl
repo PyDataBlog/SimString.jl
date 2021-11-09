@@ -17,17 +17,16 @@ export Dice, Jaccard, Cosine,
     CharacterNGrams, WordNGrams,
     add!, search
 
+    # using SimString
 
-## Example of User API
+    # db = DictDB(CharacterNGrams(2, " "), String[], Dict(), Dict())
+    # add!(db, "foo")
+    # add!(db, "bar")
+    # add!(db, "fooo")
 
-# db = DictDB(CharacterNGrams(2, " "), String[], Dict(), Dict())
-# add!(db, "foo")
-# add!(db, "bar")
-# add!(db, "fooo")
+    # add!(db, ["foo", "bar", "fooo"]) # also works via multiple dispatch on a vector
 
-# results = search(Dice(), "foo", db; α=0.8)
-
-
+    # results = search(Dice(), "foo", db; α=0.8)  # yet to be implemented
 
 
 

@@ -1,6 +1,7 @@
 module TestMeasures
 using SimString: search, add!, DictDB
 using Test
+using Faker
 
 
 @testset "Test Dice Search" begin

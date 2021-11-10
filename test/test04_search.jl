@@ -1,5 +1,5 @@
 module TestMeasures
-using SimString: search, add!, DictDB
+using SimString: search, push!, DictDB
 using Test
 using Faker
 

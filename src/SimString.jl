@@ -15,16 +15,16 @@ include("search.jl")
 export Dice, Jaccard, Cosine,
     AbstractSimStringDB, DictDB,
     CharacterNGrams, WordNGrams,
-    add!, search
+    push!, search
 
     # using SimString
 
     # db = DictDB(CharacterNGrams(2, " "), String[], Dict(), Dict())
-    # add!(db, "foo")
-    # add!(db, "bar")
-    # add!(db, "fooo")
+    # push!(db, "foo")
+    # push!(db, "bar")
+    # push!(db, "fooo")
 
-    # add!(db, ["foo", "bar", "fooo"]) # also works via multiple dispatch on a vector
+    # push!(db, ["foo", "bar", "fooo"]) # also works via multiple dispatch on a vector
 
     # results = search(Dice(), "foo", db; α=0.8)  # yet to be implemented
 

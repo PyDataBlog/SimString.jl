@@ -28,3 +28,4 @@ struct Cosine <: AbstractSimilarityMeasure end
 Overlap Similarity Measure.
 """
 struct Overlap <: AbstractSimilarityMeasure end
+

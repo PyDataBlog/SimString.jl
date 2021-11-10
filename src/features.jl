@@ -139,7 +139,7 @@ end
 Add a new item to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
-function add!(db::AbstractSimStringDB, str::AbstractString)
+function push!(db::AbstractSimStringDB, str::AbstractString)
     # Extract features based on the specified feature extractor
     features = extract_features(db.feature_extractor, str)
 
@@ -178,8 +178,8 @@ end
 Add bulk items to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
-function add!(db::AbstractSimStringDB, str::Vector)
+function push!(db::AbstractSimStringDB, str::Vector)
     @inbounds @simd for i in str
-        add!(db, i)
+        push!(db, i)
     end
 end

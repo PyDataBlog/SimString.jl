@@ -20,7 +20,3 @@ struct DictDB{T1<:FeatureExtractor, T2<:AbstractString, T3<:AbstractDict} <: Abs
     string_size_map::T3       # AbstractDict{Int64, AbstractSet{AbstractString}} # T3
     string_feature_map::T3    # AbstractDict{Int64, AbstractDict{AbstractString, AbstractSet{AbstractString}}} # T3
 end
-
-
-# DictDB(CharacterNGrams(2, " "), String[], Dict(), Dict())
-# DictDB(CharacterNGrams(2, " "), String[], Dict{Int64, AbstractSet}(), Dict{Int64, AbstractDict{AbstractString, AbstractSet{AbstractString}}}())

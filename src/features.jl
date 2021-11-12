@@ -169,7 +169,6 @@ function push!(db::AbstractSimStringDB, str::AbstractString)
             db.string_feature_map[size] = Dict(n => Set([str]))
         end
     end
-
     return db
 end
 
@@ -179,7 +178,7 @@ Add bulk items to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
 function push!(db::AbstractSimStringDB, str::Vector)
-    @inbounds @simd for i in str
+    for i in str
         push!(db, i)
     end
 end

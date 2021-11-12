@@ -1,7 +1,8 @@
 module SimString
 
-
+import Base: push!
 using Dictionaries
+using ProgressMeter
 
 ######### Import modules & utils ################
 include("db_collection.jl")
@@ -17,16 +18,8 @@ export Dice, Jaccard, Cosine,
     CharacterNGrams, WordNGrams,
     push!, search
 
-    # using SimString
 
-    # db = DictDB(CharacterNGrams(2, " "), String[], Dict(), Dict())
-    # push!(db, "foo")
-    # push!(db, "bar")
-    # push!(db, "fooo")
 
-    # push!(db, ["foo", "bar", "fooo"]) # also works via multiple dispatch on a vector
-
-    # results = search(Dice(), "foo", db; α=0.8)  # yet to be implemented
 
 
 

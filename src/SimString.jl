@@ -1,7 +1,7 @@
 module SimString
 
 import Base: push!
-using Dictionaries
+using DataStructures: OrderedDict
 using ProgressMeter
 
 ######### Import modules & utils ################

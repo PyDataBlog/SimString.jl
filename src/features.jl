@@ -82,9 +82,6 @@ function extract_features(extractor::WordNGrams, str)
 end
 
 
-# bs = ["foo", "bar", "foo", "foo", "bar"]
-# SimString.extract_features(CharacterNGrams(3, " "), "prepress")
-# SimString.extract_features(WordNGrams(2, " ", " "), "You are cool.")
 
 """
 Internal function to count and pad generated character-level ngrams (including duplicates)
@@ -149,26 +146,15 @@ function push!(db::AbstractSimStringDB, str::AbstractString)
     # Add the string to the database
     push!(db.string_collection, str)
 
-    # Add str and size to string size map if size already exists
-    if haskey(db.string_size_map, size)
-        push!(db.string_size_map[size], str)
-    else
-        # or initiate a set using the incoming str
-        db.string_size_map[size] = Set{String}([str])
+    # Add the size of the incoming string to size map
+    push!( get!(db.string_size_map, size, Set{String}()), str )
+
+    # Map each feature to a size map along with the originating string
+    for n in features
+        get!(db.string_feature_map, size, OrderedDict(n => Set([str])))
+        push!( get!(db.string_feature_map[size], n, Set{String}()), str)
     end
 
-    # Update feature map with each feature using size as key
-    for n in features
-        if haskey(db.string_feature_map, size)
-            if haskey(db.string_feature_map[size], n)
-                push!(db.string_feature_map[size][n], str)
-            else
-                db.string_feature_map[size][n] = Set{String}([str])
-            end
-        else
-            db.string_feature_map[size] = Dict(n => Set([str]))
-        end
-    end
     return db
 end
 

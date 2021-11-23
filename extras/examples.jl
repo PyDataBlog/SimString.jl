@@ -3,25 +3,27 @@ using Faker
 using BenchmarkTools
 using DataStructures
 
-################################# Benchmark Builk addition #####################
-db = DictDB(CharacterNGrams(3, " "), String[], OrderedDict(), OrderedDict());
+################################# Benchmark Bulk addition #####################
+db = DictDB(CharacterNGrams(3, " "));
 Faker.seed(2020)
 @time fake_names = [string(Faker.first_name(), " ", Faker.last_name()) for i in 1:100_000];
 
 
-f(d, x) = push!(d, x)
-@time f($db, $fake_names)
+f(d, x) = append!(d, x)
+@time f(db, fake_names)
 
 
 
 ################################ Simple Addition ###############################
 
-# db = DictDB(CharacterNGrams(3, " "), String[], OrderedDict(), OrderedDict())
+# db = DictDB(CharacterNGrams(3, " "));
 # push!(db, "foo")
 # push!(db, "bar")
 # push!(db, "fooo")
 
-# push!(db, ["foo", "bar", "fooo"]) # also works via multiple dispatch on a vector
+# db2 = DictDB(CharacterNGrams(3, " "));
+
+# append!(db2, ["foo", "bar", "fooo", "foor"]) # also works via multiple dispatch on a vector
 
 # results = search(db,  Cosine(), "foo"; α=0.8)  # yet to be implemented
 

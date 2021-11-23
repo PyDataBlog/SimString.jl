@@ -42,11 +42,8 @@ end
 Internal function to create character-level ngrams features from an AbstractString
 """
 function n_grams(extractor::CharacterNGrams, x, n)
-    # A list of n-grams of x
-    init_ngrams = [x[i+1: i+n] for i in 0:length(x) - n]
-
     # Return counted n-grams (including duplicates)
-    return cummulative_ngram_count(extractor, init_ngrams)
+    return cummulative_ngram_count(extractor, [x[i+1: i+n] for i in 0:length(x) - n])
 
 end
 
@@ -55,8 +52,7 @@ end
 Internal function to create word-level ngrams from an AbstractVector
 """
 function n_grams(extractor::WordNGrams, x, n)
-    # return [x[i+1: i+n] for i in 0:length(x) - n]
-    # return [tuple(x[i+1: i+n]...) for i in 0:length(x) - n]
+    # [tuple(x[i+1: i+n]...) for i in 0:length(x) - n]
     init_grams = [x[i+1: i+n] for i in 0:length(x) - n]
     return cummulative_ngram_count(extractor, init_grams)
 end
@@ -83,27 +79,27 @@ end
 
 
 
-"""
-Internal function to count and pad generated character-level ngrams (including duplicates)
-"""
-function cummulative_ngram_count(extractor::CharacterNGrams, x)
-    p1 = sortperm(x)
-    p2 = sortperm(p1)
-    x = sort(x)
+# """
+# Internal function to count and pad generated character-level ngrams (including duplicates)
+# """
+# function cummulative_ngram_count(extractor::CharacterNGrams, x)
+#     p1 = sortperm(x)
+#     p2 = sortperm(p1)
+#     x = sort(x)
 
-    results = String[]
-    counter = 0
-    last_i, rest = Iterators.peel(x)
+#     results = String[]
+#     counter = 0
+#     last_i, rest = Iterators.peel(x)
 
-    push!(results, string(last_i, "#",  counter += 1))
+#     push!(results, string(last_i, "#",  counter += 1))
 
-    for i in rest
-        counter = i == last_i ? counter + 1 : 1
-        last_i = i
-        push!(results, string(i, "#", counter))
-    end
-    return results[p2]
-end
+#     for i in rest
+#         counter = i == last_i ? counter + 1 : 1
+#         last_i = i
+#         push!(results, string(i, "#", counter))
+#     end
+#     return results[p2]
+# end
 
 
 """
@@ -133,6 +129,26 @@ end
 
 
 """
+Internal function to count and pad generated character-level ngrams (including duplicates)
+"""
+function cummulative_ngram_count(extractor::CharacterNGrams, x)
+    counter = Dict{String, Int}()
+    unique_list = String[]
+
+    for val in x
+        if val in keys(counter)
+            counter[val] += 1
+        else
+            counter[val] = 1
+        end
+        push!(unique_list, string(val, "#", counter[val]))
+    end
+
+    return unique_list
+end
+
+
+"""
 Add a new item to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
@@ -147,12 +163,11 @@ function push!(db::AbstractSimStringDB, str::AbstractString)
     push!(db.string_collection, str)
 
     # Add the size of the incoming string to size map
-    push!( get!(db.string_size_map, size, Set{String}()), str )
+    push!(db.string_size_map[size], str)
 
     # Map each feature to a size map along with the originating string
-    for n in features
-        get!(db.string_feature_map, size, OrderedDict(n => Set([str])))
-        push!( get!(db.string_feature_map[size], n, Set{String}()), str)
+    @inbounds for n in features
+        push!(db.string_feature_map[size][n], str)
     end
 
     return db
@@ -163,8 +178,8 @@ end
 Add bulk items to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
-function push!(db::AbstractSimStringDB, str::Vector)
-    for i in str
+function append!(db::AbstractSimStringDB, str::Vector)
+    @inbounds for i in str
         push!(db, i)
     end
 end

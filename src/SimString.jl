@@ -1,7 +1,7 @@
 module SimString
 
-import Base: push!
-using DataStructures: OrderedDict
+import Base: push!, append!
+using DataStructures: DefaultOrderedDict, DefaultDict
 using ProgressMeter
 
 ######### Import modules & utils ################
@@ -16,7 +16,7 @@ include("search.jl")
 export Dice, Jaccard, Cosine,
     AbstractSimStringDB, DictDB,
     CharacterNGrams, WordNGrams,
-    push!, search
+    push!, append!, search
 
 
 

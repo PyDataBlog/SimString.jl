@@ -110,7 +110,7 @@ function cummulative_ngram_count(extractor::WordNGrams, x)
     p2 = sortperm(p1)
     x = sort(x)
 
-    results = []
+    results = Vector{Vector{String}}()
     counter = 0
     last_i, rest = Iterators.peel(x)
 
@@ -133,7 +133,7 @@ Internal function to count and pad generated character-level ngrams (including d
 """
 function cummulative_ngram_count(extractor::CharacterNGrams, x)
     counter = Dict{String, Int}()
-    unique_list = String[]
+    unique_list = Vector{Vector{String}}()
 
     for val in x
         if val in keys(counter)
@@ -141,7 +141,8 @@ function cummulative_ngram_count(extractor::CharacterNGrams, x)
         else
             counter[val] = 1
         end
-        push!(unique_list, string(val, "#", counter[val]))
+        # push!(unique_list, string(val, "#", counter[val]))
+        push!(unique_list, [val, string("#", counter[val])])
     end
 
     return unique_list

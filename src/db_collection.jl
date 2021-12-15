@@ -19,7 +19,7 @@ struct DictDB{
     T1<:FeatureExtractor,
     T2<:AbstractString,
     T3<:AbstractDict{Int64, Set{String}},
-    T4<:AbstractDict{Int64, DefaultOrderedDict{String, Set{String}}}
+    T4<:AbstractDict{Int64, DefaultOrderedDict{Vector{String}, Set{String}}}
     } <: AbstractSimStringDB
 
     feature_extractor::T1                       # NGram feature extractor
@@ -34,6 +34,6 @@ function DictDB(x::FeatureExtractor)
         x,
         String[],
         DefaultDict{Int, Set{String}}( () -> Set{String}() ),
-        DefaultDict{ Int, DefaultOrderedDict{String, Set{String}}  }( () -> DefaultOrderedDict{String, Set{String} }(Set{String}))
+        DefaultDict{ Int, DefaultOrderedDict{Vector{String}, Set{String}}  }( () -> DefaultOrderedDict{Vector{String}, Set{String} }(Set{String}))
     )
 end

@@ -16,17 +16,17 @@ f(d, x) = append!(d, x)
 
 ################################ Simple Addition ###############################
 
-# db = DictDB(CharacterNGrams(3, " "));
-# push!(db, "foo")
-# push!(db, "bar")
-# push!(db, "fooo")
+db = DictDB(CharacterNGrams(3, " "));
+push!(db, "foo")
+push!(db, "bar")
+push!(db, "fooo")
 
-# db2 = DictDB(CharacterNGrams(3, " "));
+db2 = DictDB(CharacterNGrams(3, " "));
 
-# append!(db2, ["foo", "bar", "fooo", "foor"]) # also works via multiple dispatch on a vector
+append!(db2, ["foo", "bar", "fooo", "foor"]) # also works via multiple dispatch on a vector
 
-# results = search(db,  Cosine(), "foo"; α=0.8)  # yet to be implemented
+results = search(db,  Cosine(), "foo"; α=0.8)  # yet to be implemented
 
-# bs = ["foo", "bar", "foo", "foo", "bar"]
-# SimString.extract_features(CharacterNGrams(3, " "), "prepress")
-# SimString.extract_features(WordNGrams(2, " ", " "), "You are cool.")
+bs = ["foo", "bar", "foo", "foo", "bar"]
+SimString.extract_features(CharacterNGrams(3, " "), "prepress")
+SimString.extract_features(WordNGrams(2, " ", " "), "You are a really really really cool dude.")

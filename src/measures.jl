@@ -1,4 +1,4 @@
-# String Similarity Measure Definitions
+############## String Similarity Measure Definitions  ##############
 
 """
 Abstract base type for all string similarity measures.
@@ -30,6 +30,8 @@ Overlap Similarity Measure.
 struct Overlap <: AbstractSimilarityMeasure end
 
 
+
+############## Minimum Feature Sizes Per Measure  ##############
 """
 Calculate minimum feature size for Dice similarity measure.
 """
@@ -55,6 +57,16 @@ end
 
 
 """
+Calculate minimum feature size for Overlap similarity measure.
+"""
+function minimum_feature_size(measure::Overlap, query_size, α)
+    return 1
+end
+
+
+############## Maximum Feature Size Per Measure  ##############
+
+"""
 Calculate maximum feature size for Dice similarity measure.
 """
 function maximum_feature_size(measure::Dice, query_size, α)
@@ -78,6 +90,16 @@ function maximum_feature_size(measure::Cosine, query_size, α)
 end
 
 
+"""
+Calculate maximum feature size for Overlap similarity measure.
+"""
+function maximum_feature_size(measure::Overlap, query_size, α)
+    return typemax(Int)
+end
+
+
+
+############## Similarity Score Per Measure  ##############
 """
 Calculate similarity score between X and Y using Dice similarity measure.
 """
@@ -110,6 +132,8 @@ function similarity_score(measure::Overlap, X, Y)
 end
 
 
+
+############## Number of Minimum Overlaps Per Measure  ##############
 """
 Calculate the minimum overlap for a query size, candidate size, and α
 using Dice similarity measure.

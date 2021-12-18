@@ -30,3 +30,6 @@ results = search(db,  Cosine(), "foo"; α=0.8)  # yet to be implemented
 bs = ["foo", "bar", "foo", "foo", "bar"]
 SimString.extract_features(CharacterNGrams(3, " "), "prepress")
 SimString.extract_features(WordNGrams(2, " ", " "), "You are a really really really cool dude.")
+
+db = DictDB(WordNGrams(2, " ", " "))
+push!(db, "You are a really really really cool dude.")

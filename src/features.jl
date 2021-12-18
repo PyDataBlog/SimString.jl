@@ -1,24 +1,3 @@
-# Feature Extraction Definitions
-
-"""
-Feature extraction on character-level ngrams
-"""
-struct CharacterNGrams{T1<:Int, T2<:AbstractString} <: FeatureExtractor
-    n::T1         # number of n-grams to extract
-    padder::T2    # string to use to pad n-grams
-end
-
-
-"""
-Feature extraction based on word-level ngrams
-"""
-struct WordNGrams{T1<:Int, T2<:AbstractString} <: FeatureExtractor
-    n::T1           # number of n-grams to extract
-    padder::T2      # string to use to pad n-grams
-    splitter::T2    # string to use to split words
-end
-
-
 """
 Internal function to pad AbstractString types with specified padder
 """
@@ -39,12 +18,31 @@ end
 
 
 """
+Internal function to generate intial uncounted ngrams on a character level
+"""
+function init_ngrams(extractor::CharacterNGrams, x, n)
+    map(0:length(x)-n) do i
+        x[i+1: i+n]
+    end
+end
+
+
+"""
+Internal function to generate intial uncounted ngrams on a word level
+"""
+function init_ngrams(extractor::WordNGrams, x, n)
+    map(0:length(x)-n) do i
+        tuple(String.(x[i+1: i+n])...)
+    end
+end
+
+
+"""
 Internal function to create character-level ngrams features from an AbstractString
 """
 function n_grams(extractor::CharacterNGrams, x, n)
     # Return counted n-grams (including duplicates)
-    return cummulative_ngram_count(extractor, [x[i+1: i+n] for i in 0:length(x) - n])
-
+    return cummulative_ngram_count(init_ngrams(extractor, x, n))
 end
 
 
@@ -52,9 +50,7 @@ end
 Internal function to create word-level ngrams from an AbstractVector
 """
 function n_grams(extractor::WordNGrams, x, n)
-    # [tuple(x[i+1: i+n]...) for i in 0:length(x) - n]
-    init_grams = [x[i+1: i+n] for i in 0:length(x) - n]
-    return cummulative_ngram_count(extractor, init_grams)
+    return cummulative_ngram_count(init_ngrams(extractor, x, n))
 end
 
 
@@ -78,71 +74,19 @@ function extract_features(extractor::WordNGrams, str)
 end
 
 
-
-# """
-# Internal function to count and pad generated character-level ngrams (including duplicates)
-# """
-# function cummulative_ngram_count(extractor::CharacterNGrams, x)
-#     p1 = sortperm(x)
-#     p2 = sortperm(p1)
-#     x = sort(x)
-
-#     results = String[]
-#     counter = 0
-#     last_i, rest = Iterators.peel(x)
-
-#     push!(results, string(last_i, "#",  counter += 1))
-
-#     for i in rest
-#         counter = i == last_i ? counter + 1 : 1
-#         last_i = i
-#         push!(results, string(i, "#", counter))
-#     end
-#     return results[p2]
-# end
-
-
 """
 Internal function to count and pad generated character-level ngrams (including duplicates)
 """
-function cummulative_ngram_count(extractor::WordNGrams, x)
-    p1 = sortperm(x)
-    p2 = sortperm(p1)
-    x = sort(x)
+function cummulative_ngram_count(x)
+    counter = Dict{eltype(x), Int}()
 
-    results = Vector{Vector{String}}()
-    counter = 0
-    last_i, rest = Iterators.peel(x)
-
-    push!(last_i, "#$(counter += 1)")
-    push!(results, last_i)
-
-    for i in rest
-        counter = i == last_i[1:extractor.n] ? counter + 1 : 1
-        last_i = i
-
-        push!(last_i, "#$(counter)")
-        push!(results, last_i)
-    end
-    return results[p2]
-end
-
-
-"""
-Internal function to count and pad generated character-level ngrams (including duplicates)
-"""
-function cummulative_ngram_count(extractor::CharacterNGrams, x)
-    counter = Dict{String, Int}()
-    unique_list = Vector{Vector{String}}()
-
-    for val in x
+    unique_list = map(x) do val
         if val in keys(counter)
             counter[val] += 1
         else
             counter[val] = 1
         end
-        # push!(unique_list, string(val, "#", counter[val]))
-        push!(unique_list, [val, string("#", counter[val])])
+        (val, counter[val])
     end
 
     return unique_list
@@ -180,7 +124,7 @@ Add bulk items to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
 """
 function append!(db::AbstractSimStringDB, str::Vector)
-    @inbounds for i in str
+    @inbounds @simd for i in str
         push!(db, i)
     end
 end

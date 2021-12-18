@@ -13,7 +13,7 @@ include("search.jl")
 
 
 ####### Global export of user API #######
-export Dice, Jaccard, Cosine,
+export Dice, Jaccard, Cosine, Overlap,
     AbstractSimStringDB, DictDB,
     CharacterNGrams, WordNGrams,
     push!, append!, search

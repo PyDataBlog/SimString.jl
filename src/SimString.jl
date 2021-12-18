@@ -16,7 +16,7 @@ include("search.jl")
 export Dice, Jaccard, Cosine, Overlap,
     AbstractSimStringDB, DictDB,
     CharacterNGrams, WordNGrams,
-    push!, append!, search
+    search
 
 
 

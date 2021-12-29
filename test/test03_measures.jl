@@ -1,24 +1,24 @@
-module TestSimilarityMeasures
+module TestMeasures
 using SimString
 using Test
 
 
-@testset "Test Dice" begin
+@testset "Test Similarity Scores" begin
 
 end
 
 
-@testset "Test Jaccard" begin
+@testset "Test Minimum Candidate Feature Size" begin
 
 end
 
 
-@testset "Test Cosine" begin
+@testset "Test Maximum Candidate Feature Size" begin
 
 end
 
 
-@testset "Test Overlap" begin
+@testset "Test Minimum Feature Overlap" begin
 
 end
 

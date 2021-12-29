@@ -6,6 +6,7 @@ using ProgressMeter
 
 ######### Import modules & utils ################
 include("db_collection.jl")
+include("dictdb.jl")
 include("features.jl")
 include("measures.jl")
 include("search.jl")

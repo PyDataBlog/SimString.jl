@@ -69,7 +69,7 @@ end
 """
 Calculate maximum feature size for Dice similarity measure.
 """
-function maximum_feature_size(measure::Dice, query_size, α)
+function maximum_feature_size(measure::Dice, db::AbstractSimStringDB, query_size, α)
     return floor(Int, ( ((2 - α) / α) * query_size) )
 end
 
@@ -77,7 +77,7 @@ end
 """
 Calculate maximum feature size for Jaccard similarity measure.
 """
-function maximum_feature_size(measure::Jaccard, query_size, α)
+function maximum_feature_size(measure::Jaccard, db::AbstractSimStringDB, query_size, α)
     return floor(Int, (query_size / α))
 end
 
@@ -85,7 +85,7 @@ end
 """
 Calculate maximum feature size for Cosine similarity measure.
 """
-function maximum_feature_size(measure::Cosine, query_size, α)
+function maximum_feature_size(measure::Cosine, db::AbstractSimStringDB, query_size, α)
     return floor(Int, ( query_size / (α * α) ))
 end
 
@@ -93,10 +93,9 @@ end
 """
 Calculate maximum feature size for Overlap similarity measure.
 """
-function maximum_feature_size(measure::Overlap, query_size, α)
-    return typemax(Int)
+function maximum_feature_szie(measure::Overlap, db::AbstractSimStringDB, query_size, α)
+    return min(typemax(Int), maximum(keys(db.string_feature_map)))
 end
-
 
 
 ############## Similarity Score Per Measure  ##############
@@ -104,7 +103,7 @@ end
 Calculate similarity score between X and Y using Dice similarity measure.
 """
 function similarity_score(measure::Dice, X, Y)
-    return 2 * ( length( X ∩ Y ) ) / ( length(X) + length(Y) )
+    return 2 * ( length( Set(X) ∩ Set(Y) ) ) / ( length( Set(X) ) + length( Set(Y) ) )
 end
 
 
@@ -112,7 +111,7 @@ end
 Calculate similarity score between X and Y using Jaccard similarity measure.
 """
 function similarity_score(measure::Jaccard, X, Y)
-    return length( X ∩ Y ) / ( length( X ∪ Y ) )
+    return length( Set(X) ∩ Set(Y) ) / ( length( Set(X) ∪ Set(Y) ) )
 end
 
 
@@ -120,7 +119,7 @@ end
 Calculate similarity score between X and Y using Cosine similarity measure.
 """
 function similarity_score(measure::Cosine, X, Y)
-    return length( X ∩ Y ) / ( √(length(X) * length(Y)) )
+    return length( Set(X) ∩ Set(Y) ) / ( √(length( Set(X) ) * length( Set(Y) )) )
 end
 
 
@@ -128,14 +127,14 @@ end
 Calculate similarity score between X and Y using Overlap similarity measure.
 """
 function similarity_score(measure::Overlap, X, Y)
-    return length( X ∩ Y ) / min(length(X), length(Y))
+    return length( Set(X) ∩ Set(Y) ) / min(length( Set(X) ), length( Set(Y) ))
 end
 
 
 
 ############## Number of Minimum Overlaps Per Measure  ##############
 """
-Calculate the minimum overlap for a query size, candidate size, and α
+Calculate the minimum overlap (τ) for a query size, candidate size, and α
 using Dice similarity measure.
 """
 function minimum_overlap(measure::Dice, query_size, candidate_size, α)
@@ -144,7 +143,7 @@ end
 
 
 """
-Calculate the minimum overlap for a query size, candidate size, and α
+Calculate the minimum overlap (τ) for a query size, candidate size, and α
 using Jaccard similarity measure.
 """
 function minimum_overlap(measure::Jaccard, query_size, candidate_size, α)
@@ -153,7 +152,7 @@ end
 
 
 """
-Calculate the minimum overlap for a query size, candidate size, and α
+Calculate the minimum overlap (τ) for a query size, candidate size, and α
 using Cosine similarity measure.
 """
 function minimum_overlap(measure::Cosine, query_size, candidate_size, α)
@@ -162,7 +161,7 @@ end
 
 
 """
-Calculate the minimum overlap for a query size, candidate size, and α
+Calculate the minimum overlap (τ) for a query size, candidate size, and α
 using Overlap similarity measure.
 """
 function minimum_overlap(measure::Overlap, query_size, candidate_size, α)

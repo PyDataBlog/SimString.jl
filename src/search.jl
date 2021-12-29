@@ -1,36 +1,36 @@
 # Main SimString search algorithm
 
 """
-Search for strings in a string collection using the SimString algorithm and Dice
+Search for strings in a string collection using the SimString algorithm and a
 similarity measure.
 """
-function search(mesasure::Dice, db_collection::AbstractSimStringDB, query::AbstractString; α=0.7)
+function search(mesasure::AbstractSimilarityMeasure, db_collection::AbstractSimStringDB, query::AbstractString; α=0.7, ranked=true)
+    return search!(mesasure, db_collection, query; α=α, ranked=ranked)
+end
 
+
+
+"""
+"""
+function overlap_join(db::AbstractSimStringDB, features, τ, candidate_size)
+    # TODO: length of features
+
+    # TODO: Sort features from the most uncommon and the most common
+
+    # TODO: Implement overlap join
 end
 
 
 """
-Search for strings in a string collection using the SimString algorithm and Jaccard
-similarity measure.
+Search for strings in custom DictDB string collection using the SimString algorithm
+and a similarity measure.
 """
-function search(measure::Jaccard, db_collection::AbstractSimStringDB, query::AbstractString; α=0.7)
+function search!(mesasure::AbstractSimilarityMeasure, db_collection::DictDB, query::AbstractString; α=0.7, ranked=true)
+    # TODO: Generate features from query string
 
-end
+    # TODO: Metadata from the generated features (length, min & max sizes)
 
+    # TODO: Count occurence of candidates to be matched
 
-"""
-Search for strings in a string collection using the SimString algorithm and Cosine
-similarity measure.
-"""
-function search(measure::Cosine, db_collection::AbstractSimStringDB, query::AbstractString; α=0.7)
-
-end
-
-
-"""
-Search for strings in a string collection using the SimString algorithm and Overlap
-similarity measure.
-"""
-function search(measure::Overlap, db_collection::AbstractSimStringDB, query::AbstractString; α=0.7)
-
+    # TODO: Generate and return results from the potential candidate size pool
 end

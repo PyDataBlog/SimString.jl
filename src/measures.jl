@@ -93,7 +93,7 @@ end
 """
 Calculate maximum feature size for Overlap similarity measure.
 """
-function maximum_feature_szie(measure::Overlap, db::AbstractSimStringDB, query_size, α)
+function maximum_feature_size(measure::Overlap, db::AbstractSimStringDB, query_size, α)
     return min(typemax(Int), maximum(keys(db.string_feature_map)))
 end
 

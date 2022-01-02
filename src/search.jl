@@ -32,20 +32,33 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
     query_feature_length = length(features)
 
     # TODO: features mapped their original strings
-    features_mappings = Dict( i => lookup_feature_set_by_size_feature(db_collection, candidate_size, i) for i in features)
+    # features_mappings = Dict( i => lookup_feature_set_by_size_feature(db_collection, candidate_size, i) for i in features)
     # println(features_mappings)
     # TODO: Sort features from the most uncommon and the most common
-    features = sort(features, by = i -> length(features_mappings[i]) )
+    # features = sort(features, by = i -> length(features_mappings[i]) )
+    features = sort(features, by = i -> length(lookup_feature_set_by_size_feature(db_collection, candidate_size, i) ) )
     # println(query_feature_length, features)
     # TODO: Count the occurrences of each feature
     candidate_match_counts = DefaultDict(0)
+    # println(query_feature_length - τ + 1)
 
-    for i in features[1:query_feature_length - τ + 1]
-        for s in features_mappings[i]
+    feature_slice_index = query_feature_length - τ + 1
+    # println(feature_slice_index)
+
+    if feature_slice_index < 0
+        focus_features = features[1:end + feature_slice_index]
+    else
+        focus_features = features[1:feature_slice_index]
+    end
+
+    # for i in features[1:query_feature_length - τ + 1]
+    for i in focus_features
+        # for s in features_mappings[i]
+        for s in lookup_feature_set_by_size_feature(db_collection, candidate_size, i)
             candidate_match_counts[s] += 1
         end
     end
-    # println(candidate_match_counts)
+    # println(candidate_match_counts |> keys)
     # TODO: Implement overlap join
     results = String[]
 
@@ -55,9 +68,21 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
     # end
 
     for (candidate, match_count) in candidate_match_counts
+        # println(candidate, "==>: ", match_count, "==>: ", query_feature_length - τ + 1 : query_feature_length - 1)
         for i in (query_feature_length - τ + 1) : query_feature_length - 1  # TODO: Verify
+            # println(i, "==>", features[i])
+            # feature = i < 0 ? features[end + i] : features[i]
+            if i < 0
+                feature = features[end + i]
+            elseif i == 0
+                feature = features[i+1]
+            else
+                feature = features[i]
 
-            if candidate in features_mappings[features[i]]
+            end
+            # if candidate in features_mappings[features[i]]
+            # if candidate in lookup_feature_set_by_size_feature(db_collection, candidate_size, features[i])
+            if candidate in lookup_feature_set_by_size_feature(db_collection, candidate_size, feature)
                 match_count += 1
             end
 

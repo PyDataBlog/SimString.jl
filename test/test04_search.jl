@@ -9,7 +9,7 @@ using Faker
     append!(db, ["foo", "bar", "fooo"]);
 
     res = search(Dice(), db, "foo"; α=0.8, ranked=true)
-    @test res .== [("foo", 1.0), ("fooo", 0.8888888888888888)]
+    @test res == [("foo", 1.0), ("fooo", 0.8888888888888888)]
 end
 
 

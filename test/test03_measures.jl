@@ -14,8 +14,8 @@ end
 
 
 @testset "Test Minimum Candidate Feature Size" begin
-    @test SimString.minimum_feature_size(Dice(), 5, 1.)     == 5
-    @test SimString.minimum_feature_size(Dice(), 5, 0.5)    == 2
+    @test SimString.minimum_feature_size(Dice(), 5, 1.)      == 5
+    @test SimString.minimum_feature_size(Dice(), 5, 0.5)     == 2
 
     @test SimString.minimum_feature_size(Jaccard(), 5, 1.)   == 5
     @test SimString.minimum_feature_size(Jaccard(), 5, 0.5)  == 3
@@ -32,8 +32,8 @@ end
     db = DictDB(CharacterNGrams(3, " "))
     append!(db, ["foo", "bar", "fooo"])
 
-    @test SimString.maximum_feature_size(Dice(), db, 5, 1.)     == 5
-    @test SimString.maximum_feature_size(Dice(), db, 5, 0.5)    == 15
+    @test SimString.maximum_feature_size(Dice(), db, 5, 1.)      == 5
+    @test SimString.maximum_feature_size(Dice(), db, 5, 0.5)     == 15
 
     @test SimString.maximum_feature_size(Jaccard(), db, 5, 1.)   == 5
     @test SimString.maximum_feature_size(Jaccard(), db, 5, 0.5)  == 10
@@ -47,9 +47,9 @@ end
 
 
 @testset "Test Minimum Feature Overlap" begin
-    @test SimString.minimum_overlap(Dice(), 5, 5, 1.0)          == 13
-    @test SimString.minimum_overlap(Dice(), 5, 20, 1.0)         == 50
-    @test SimString.minimum_overlap(Dice(), 5, 5, 0.5)          == 7
+    @test SimString.minimum_overlap(Dice(), 5, 5, 1.0)           == 13
+    @test SimString.minimum_overlap(Dice(), 5, 20, 1.0)          == 50
+    @test SimString.minimum_overlap(Dice(), 5, 5, 0.5)           == 7
 
     @test SimString.minimum_overlap(Jaccard(), 5, 5, 1.0)        == 5
     @test SimString.minimum_overlap(Jaccard(), 5, 20, 1.0)       == 13

@@ -16,16 +16,27 @@ f(d, x) = append!(d, x)
 
 ################################ Simple Addition ###############################
 
-db = DictDB(CharacterNGrams(3, " "));
-push!(db, "foo")
-push!(db, "bar")
-push!(db, "fooo")
+db = DictDB(CharacterNGrams(2, " "));
+push!(db, "foo");
+push!(db, "bar");
+push!(db, "fooo");
+
+f(x, c, s) = search(x, c, s)
+test = "foo";
+col = db;
+sim = Cosine();
+
+f(Cosine(),  db, "foo")
+
+@btime f($sim,  $col, $test)
+@btime search(Cosine(), db, "foo"; α=0.8, ranked=true)
+
+
 
 db2 = DictDB(CharacterNGrams(3, " "));
-
 append!(db2, ["foo", "bar", "fooo", "foor"]) # also works via multiple dispatch on a vector
 
-results = search(db,  Cosine(), "foo"; α=0.8)  # yet to be implemented
+results = search(Cosine(), db, "foo"; α=0.8, ranked=true)  # yet to be implemented
 
 bs = ["foo", "bar", "foo", "foo", "bar"]
 SimString.extract_features(CharacterNGrams(3, " "), "prepress")

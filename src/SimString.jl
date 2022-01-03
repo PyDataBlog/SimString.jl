@@ -2,7 +2,9 @@ module SimString
 
 import Base: push!, append!
 using DataStructures: DefaultOrderedDict, DefaultDict
-using ProgressMeter
+# using ProgressMeter
+# using CircularArrays
+# using OffsetArrays
 
 ######### Import modules & utils ################
 include("db_collection.jl")

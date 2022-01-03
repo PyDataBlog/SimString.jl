@@ -18,6 +18,20 @@ end
 
 
 """
+    DictDB(x::CharacterNGrams)
+
+Initialize a dict DB with additional containers and Metadata for CharacterNGrams
+
+# Arguments
+* `x`: CharacterNGrams object
+
+# Example
+```julia
+db = DictDB(CharacterNGrams(2, " "))
+```
+
+# Returns
+* `DictDB`: A DictDB object with additional containers and Metadata for CharacterNGrams
 """
 function DictDB(x::CharacterNGrams)
     DictDB(
@@ -31,6 +45,20 @@ end
 
 
 """
+    DictDB(x::WordNGrams)
+
+Initialize a dict DB with additional containers and Metadata for WordNGrams
+
+# Arguments
+* `x`: WordNGrams object
+
+# Example
+```julia
+db = DictDB(WordNGrams(2, " ", " "))
+```
+
+# Returns
+* `DictDB`: A DictDB object with additional containers and Metadata for WordNGrams
 """
 function DictDB(x::WordNGrams)
     DictDB(
@@ -47,6 +75,7 @@ end
 
 ################################## DictDB UTIL Functions  ############################
 """
+Internal function for retrieving existing features by size
 """
 function retrieve_existing_feature_by_size(db::DictDB, size, feature)
     return db.string_feature_map[size][feature]
@@ -62,6 +91,7 @@ end
 
 
 """
+Internal function to lookup feature sets by size and feature
 """
 function lookup_feature_set_by_size_feature(db::DictDB, size, feature)
     # TODO: Clean this up and make it more efficient. Shouldn't updated db.string_feature_map

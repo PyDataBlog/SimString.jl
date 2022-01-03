@@ -53,18 +53,12 @@ function retrieve_existing_feature_by_size(db::DictDB, size, feature)
 end
 
 
-"""
-"""
-function minimum_db_feature_size(db::DictDB)
-    return minimum(keys(db.string_feature_map))
-end
+# """
+# Basic summary stats for the DB
+# """
+# function describe_db(db::DictDB)
 
-
-"""
-"""
-function maximum_db_feature_size(db::DictDB)
-    return maximum(keys(db.string_feature_map))
-end
+# end
 
 
 """

@@ -61,15 +61,19 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
 
     # Count the occurrences of each feature
     candidate_match_counts = DefaultDict(0)
+    feature_slice_index = query_feature_length - τ + 1
+    focus_features = feature_slice_index < 0 ? (@view features[0:end + feature_slice_index]) : (@view features[0:feature_slice_index])
+    println("0 : $(query_feature_length - τ + 1)")  # TODO: Make check for negative values
 
-    @views for i in features[0:query_feature_length - τ + 1]
-    # println(0 : (query_feature_length - τ + 1), " cand_size: ($candidate_size) ===>, length: ($query_feature_length)===> ", τ)
+    # for i in features[0:query_feature_length - τ + 1]
+    for i in focus_features
         for s in lookup_feature_set_by_size_feature(db_collection, candidate_size, i)
             candidate_match_counts[s] += 1
         end
     end
 
     results = String[]
+    # println(candidate_match_counts)
 
     for (candidate, match_count) in candidate_match_counts
         for i in (query_feature_length - τ + 1) : query_feature_length # TODO: Verify
@@ -106,12 +110,12 @@ function search!(measure::AbstractSimilarityMeasure, db_collection::DictDB, quer
     max_feature_size = maximum_feature_size(measure, db_collection, length_of_features, α)
 
     results = String[]
-
+    println("length_of_features: ($length_of_features)===> min_feature_size: ($min_feature_size)===> max_feature_size: ($max_feature_size)")
     # Generate and return results from the potential candidate size pool
-    @inbounds for candidate_size in min_feature_size:max_feature_size
+    for candidate_size in min_feature_size:max_feature_size
         # Minimum overlap
         τ = minimum_overlap(measure, length_of_features, candidate_size, α)
-
+        println("range: $(min_feature_size:max_feature_size), tau : $τ")
         # Generate approximate candidates from the overlap join
         append!(results, overlap_join(db_collection, features, τ, candidate_size))
     end

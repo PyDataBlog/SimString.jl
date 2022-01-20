@@ -55,12 +55,21 @@ end
 
 
 """
+Internal function to make zero indexed circular arrays
+"""
+function make_zero_index_circular_array(x)
+    return CircularArray(OffsetArray(x, 0:length(x)-1))
+end
+
+
+"""
 Internal function to generate character-level ngrams features from an AbstractString
 """
 function extract_features(extractor::CharacterNGrams, str)
     n = extractor.n - 1 == 0 ? 1 : extractor.n - 1
     str = pad_string(str, repeat(extractor.padder, n))
-    return n_grams(extractor, str, extractor.n)
+    # str = pad_string(str, repeat(extractor.padder, extractor.n))
+    return make_zero_index_circular_array(n_grams(extractor, str, extractor.n))
 end
 
 
@@ -70,7 +79,7 @@ Internal function to generate word-level ngrams features from an AbstractString
 function extract_features(extractor::WordNGrams, str)
     words_split = split(str, extractor.splitter)
     padded_words = pad_string(words_split, extractor.padder)
-    return n_grams(extractor, padded_words, extractor.n)
+    return make_zero_index_circular_array(n_grams(extractor, padded_words, extractor.n))
 end
 
 

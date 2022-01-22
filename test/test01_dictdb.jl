@@ -64,6 +64,15 @@ end
 
 
 
+@testset "Test describe functionality" begin
+    db = DictDB(CharacterNGrams(2, " "));
+    append!(db, ["foo", "bar", "fooo"]);
+
+    # Interact with db
+    search(Dice(), db, "zep"; α=0.8, ranked=true)
+
+    @test describe_collection(db) == (total_collection = 3, avg_num_ngrams = 4.5, total_ngrams = 13)
+end
 
 
 

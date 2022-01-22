@@ -41,7 +41,6 @@ end
 Internal function to create character-level ngrams features from an AbstractString
 """
 function n_grams(extractor::CharacterNGrams, x, n)
-    # Return counted n-grams (including duplicates)
     return cummulative_ngram_count(init_ngrams(extractor, x, n))
 end
 
@@ -68,7 +67,6 @@ Internal function to generate character-level ngrams features from an AbstractSt
 function extract_features(extractor::CharacterNGrams, str)
     n = extractor.n - 1 == 0 ? 1 : extractor.n - 1
     str = pad_string(str, repeat(extractor.padder, n))
-    # str = pad_string(str, repeat(extractor.padder, extractor.n))
     return make_zero_index_circular_array(n_grams(extractor, str, extractor.n))
 end
 
@@ -89,7 +87,7 @@ Internal function to count and pad generated character-level ngrams (including d
 function cummulative_ngram_count(x)
     counter = Dict{eltype(x), Int}()
 
-    unique_list = map(x) do val
+    return map(x) do val
         if val in keys(counter)
             counter[val] += 1
         else
@@ -97,8 +95,6 @@ function cummulative_ngram_count(x)
         end
         (val, counter[val])
     end
-
-    return unique_list
 end
 
 

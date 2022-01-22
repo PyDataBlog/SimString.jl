@@ -82,12 +82,42 @@ function retrieve_existing_feature_by_size(db::DictDB, size, feature)
 end
 
 
-# """
-# Basic summary stats for the DB
-# """
-# function describe_db(db::DictDB)
+"""
+    describe_collection(db::DictDB)
 
-# end
+Basic summary stats for the DB
+
+# Arguments
+* `db`: DictDB object
+
+# Example
+```julia
+db = DictDB(CharacterNGrams(2, " "));
+append!(db, ["foo", "bar", "fooo"]);
+describe_collection(db)
+
+# Returns
+* NamedTuples: Summary stats for the DB
+```
+
+"""
+function describe_collection(db::DictDB)
+
+# Total number of strings in collection
+∑ = length(db.string_collection)
+
+# Average number of ngram features
+n = [x for x in keys(db.string_size_map)]
+μ = sum(n) / length(n)
+
+# Total number of ngram features
+total_ngrams = 0
+for i in values(db.string_feature_map)
+    total_ngrams += length(i)
+end
+
+return (total_collection = ∑, avg_num_ngrams = μ, total_ngrams = total_ngrams)
+end
 
 
 """

@@ -17,7 +17,7 @@ include("search.jl")
 
 ####### Global export of user API #######
 export Dice, Jaccard, Cosine, Overlap, ExactMatch,
-    AbstractSimStringDB, DictDB,
+    AbstractSimStringDB, DictDB, describe_collection,
     CharacterNGrams, WordNGrams,
     search
 

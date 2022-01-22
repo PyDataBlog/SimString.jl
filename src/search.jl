@@ -62,18 +62,21 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
     # Count the occurrences of each feature
     candidate_match_counts = DefaultDict(0)
     feature_slice_index = query_feature_length - τ + 1
-    focus_features = feature_slice_index < 0 ? (@view features[0:end + feature_slice_index]) : (@view features[0:feature_slice_index])
-    println("0 : $(query_feature_length - τ + 1)")  # TODO: Make check for negative values
+    idx = query_feature_length - τ
+    focus_features = feature_slice_index < 0 ? (@view features[0:end + feature_slice_index]) : (@view features[0:idx])
 
-    # for i in features[0:query_feature_length - τ + 1]
+    # println("0: $(feature_slice_index)")
+
     for i in focus_features
+        println("0: $(feature_slice_index), feature: $(i)")
         for s in lookup_feature_set_by_size_feature(db_collection, candidate_size, i)
             candidate_match_counts[s] += 1
         end
     end
 
+    println(candidate_match_counts)
+
     results = String[]
-    # println(candidate_match_counts)
 
     for (candidate, match_count) in candidate_match_counts
         for i in (query_feature_length - τ + 1) : query_feature_length # TODO: Verify

@@ -54,7 +54,7 @@ end
     @test search(Cosine(), db, "abcd", α=1., ranked=true) == [("abcd", 1.0)]
     @test search(Cosine(), db, "abcde", α=1., ranked=true) == [("abcde", 1.0)]
 
-    @test search(Cosine(), db, "a", α=0.5, ranked=true) == []
+    @test search(Cosine(), db, "a", α=0.5, ranked=true) == [("a", 1.0)]
     @test search(Cosine(), db, "ab", α=0.5, ranked=true) == [("ab", 1.0), ("abc", 0.5773502691896258), ("abcd", 0.5163977794943222)]
     @test search(Cosine(), db, "abc", α=0.6, ranked=false) == [("abc", 1.0), ("abcd", 0.6708203932499369), ("abcde", 0.6123724356957946)]
 

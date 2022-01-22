@@ -75,14 +75,6 @@ end
 
 ################################## DictDB UTIL Functions  ############################
 """
-Internal function for retrieving existing features by size
-"""
-function retrieve_existing_feature_by_size(db::DictDB, size, feature)
-    return db.string_feature_map[size][feature]
-end
-
-
-"""
     describe_collection(db::DictDB)
 
 Basic summary stats for the DB

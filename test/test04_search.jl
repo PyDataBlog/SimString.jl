@@ -43,6 +43,16 @@ end
 end
 
 
+@testset "Test ExactMatch Search" begin
+    db = DictDB(CharacterNGrams(2, " "));
+    append!(db, ["foo", "bar", "fooo"]);
+
+    @test search(ExactMatch(), db, "foo"; α=0.1, ranked=true) == [("foo", 1.0)]
+    @test search(ExactMatch(), db, "foo"; α=0.5, ranked=true) == [("foo", 1.0)]
+    @test search(ExactMatch(), db, "foo"; α=0.9, ranked=true) == [("foo", 1.0)]
+    @test search(ExactMatch(), db, "foo"; α=1.0, ranked=true) == [("foo", 1.0)]
+
+end
 
 @testset "Test Micro Deep Dive Search" begin
     db = DictDB(CharacterNGrams(2, " "));

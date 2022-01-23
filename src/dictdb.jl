@@ -75,28 +75,49 @@ end
 
 ################################## DictDB UTIL Functions  ############################
 """
-Internal function for retrieving existing features by size
+    describe_collection(db::DictDB)
+
+Basic summary stats for the DB
+
+# Arguments
+* `db`: DictDB object
+
+# Example
+```julia
+db = DictDB(CharacterNGrams(2, " "));
+append!(db, ["foo", "bar", "fooo"]);
+describe_collection(db)
+
+# Returns
+* NamedTuples: Summary stats for the DB
+```
+
 """
-function retrieve_existing_feature_by_size(db::DictDB, size, feature)
-    return db.string_feature_map[size][feature]
+function describe_collection(db::DictDB)
+
+# Total number of strings in collection
+∑ = length(db.string_collection)
+
+# Average number of ngram features
+n = [x for x in keys(db.string_size_map)]
+μ = sum(n) / length(n)
+
+# Total number of ngram features
+total_ngrams = 0
+for i in values(db.string_feature_map)
+    total_ngrams += length(i)
 end
 
-
-# """
-# Basic summary stats for the DB
-# """
-# function describe_db(db::DictDB)
-
-# end
+return (total_collection = ∑, avg_num_ngrams = μ, total_ngrams = total_ngrams)
+end
 
 
 """
 Internal function to lookup feature sets by size and feature
 """
 function lookup_feature_set_by_size_feature(db::DictDB, size, feature)
-    # TODO: Clean this up and make it more efficient. Shouldn't updated db.string_feature_map
     if feature ∉ keys(db.lookup_cache[size])
-        db.lookup_cache[size][feature] = retrieve_existing_feature_by_size(db, size, feature)
+        db.lookup_cache[size][feature] = get(db.string_feature_map[size], feature, Set{String}())
     end
     return db.lookup_cache[size][feature]
 end

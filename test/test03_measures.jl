@@ -10,6 +10,7 @@ using Test
     @test SimString.similarity_score(Jaccard(), X, Y)     ≈ 0.4
     @test SimString.similarity_score(Cosine(), X, Y)      ≈ 0.5773502691896258
     @test SimString.similarity_score(Overlap(), X, Y)     ≈ 0.6666666666666666
+    @test SimString.similarity_score(ExactMatch(), Y, X)  == 0.0
 end
 
 
@@ -25,6 +26,9 @@ end
 
     @test SimString.minimum_feature_size(Overlap(), 5, 1.)   == 1
     @test SimString.minimum_feature_size(Overlap(), 5, 0.5)  == 1
+
+    @test SimString.minimum_feature_size(ExactMatch(), 5, 1.) == 5
+    @test SimString.minimum_feature_size(ExactMatch(), 5, 0.5)== 5
 end
 
 
@@ -43,6 +47,9 @@ end
 
     @test SimString.maximum_feature_size(Overlap(), db, 5, 1.)   == 6
     @test SimString.maximum_feature_size(Overlap(), db, 5, 0.5)  == 6
+
+    @test SimString.maximum_feature_size(ExactMatch(), db, 5, 1.)   == 5
+    @test SimString.maximum_feature_size(ExactMatch(), db, 5, 0.5)  == 5
 end
 
 
@@ -63,6 +70,8 @@ end
     @test SimString.minimum_overlap(Overlap(), 5, 20, 1.0)       == 5
     @test SimString.minimum_overlap(Overlap(), 5, 5, 0.5)        == 3
 
+    @test SimString.minimum_overlap(ExactMatch(), 5, 5, 1.0)     == 5
+    @test SimString.minimum_overlap(ExactMatch(), 5, 20, 1.0)    == 5
 end
 
 

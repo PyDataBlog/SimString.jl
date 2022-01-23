@@ -16,6 +16,8 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Support for unicodes
 - [ ] Custom user defined feature generation methods
 - [ ] Mecab-based tokenizer support
+- [ ] Support for building databases directly from text files
+- [ ] Support for persistent databases
 
 ## Suported String Similarity Measures
 
@@ -23,6 +25,7 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Jaccard coefficient
 - [X] Cosine coefficient
 - [X] Overlap coefficient
+- [X] Exact match
 
 ## Installation
 
@@ -67,7 +70,9 @@ res = search(Dice(), db, "foo"; α=0.8, ranked=true)
 #  ("foo", 1.0)
 #  ("fooo", 0.8888888888888888)
 
-
+# Describe a working database collection
+desc = describe_collection(db)
+# (total_collection = 3, avg_num_ngrams = 4.5, total_ngrams = 13)
 ```
 
 ## TODO: Benchmarks

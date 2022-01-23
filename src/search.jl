@@ -60,17 +60,12 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
     features = sort(features, by = i -> length(lookup_feature_set_by_size_feature(db_collection, candidate_size, i) ) )
 
     # Count the occurrences of each feature
-    candidate_match_counts = DefaultDict(0)
-
+    candidate_match_counts = DefaultDict{String, Int}(0)
     feature_slice_index = query_feature_length - τ + 1
+    idx = query_feature_length - τ
+    focus_features = feature_slice_index < 0 ? (@view features[0:end + feature_slice_index]) : (@view features[0:idx])
 
-    if feature_slice_index < 0
-        focus_features = features[1:end + feature_slice_index]
-    else
-        focus_features = features[1:feature_slice_index]
-    end
-
-    for i in focus_features
+    @inbounds @views for i in focus_features
         for s in lookup_feature_set_by_size_feature(db_collection, candidate_size, i)
             candidate_match_counts[s] += 1
         end
@@ -78,25 +73,9 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
 
     results = String[]
 
-    # TODO: Return results in case of a perfect match??
-    # if τ == 1
-    #     results = collect(keys(candidate_match_counts))
-    # end
-
     for (candidate, match_count) in candidate_match_counts
-
-        for i in (query_feature_length - τ + 1) : query_feature_length - 1  # TODO: Verify
-
-            if i < 0
-                feature = features[end + i]
-            elseif i == 0
-                feature = features[i+1]
-            else
-                feature = features[i]
-
-            end
-
-            if candidate in lookup_feature_set_by_size_feature(db_collection, candidate_size, feature)
+        for i in (query_feature_length - τ + 1) : query_feature_length # TODO: Verify
+            if candidate in lookup_feature_set_by_size_feature(db_collection, candidate_size, features[i])
                 match_count += 1
             end
 
@@ -106,11 +85,9 @@ function overlap_join(db_collection::AbstractSimStringDB, features, τ, candidat
             end
 
             remaining_count = query_feature_length - i - 1
-
             if (match_count + remaining_count) < τ
                 break
             end
-
         end
     end
     return results
@@ -133,7 +110,7 @@ function search!(measure::AbstractSimilarityMeasure, db_collection::DictDB, quer
     results = String[]
 
     # Generate and return results from the potential candidate size pool
-    for candidate_size in min_feature_size:max_feature_size
+    @inbounds for candidate_size in min_feature_size:max_feature_size
         # Minimum overlap
         τ = minimum_overlap(measure, length_of_features, candidate_size, α)
 

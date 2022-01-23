@@ -21,14 +21,16 @@ push!(db, "foo");
 push!(db, "bar");
 push!(db, "fooo");
 
-f(x, c, s) = search(x, c, s)
+f(x, c, s, a, r) = search(x, c, s; α=a, ranked=r)
 test = "foo";
 col = db;
 sim = Cosine();
+a = 0.8;
+r = true;
 
-f(Cosine(),  db, "foo")
+f(Cosine(),  db, "foo", 0.8, true)
 
-@btime f($sim,  $col, $test)
+@btime f($sim,  $col, $test, $a, $r)
 @btime search(Cosine(), db, "foo"; α=0.8, ranked=true)
 
 

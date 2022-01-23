@@ -30,6 +30,11 @@ Overlap Similarity Measure.
 struct Overlap <: AbstractSimilarityMeasure end
 
 
+"""
+Exact Match Similarity Measure.
+"""
+struct ExactMatch <: AbstractSimilarityMeasure end
+
 
 ############## Minimum Feature Sizes Per Measure  ##############
 """
@@ -64,7 +69,14 @@ function minimum_feature_size(measure::Overlap, query_size, α)
 end
 
 
+"""
+Calculate minimum feature size for ExactMatch similarity measure.
+"""
+function minimum_feature_size(measure::ExactMatch, query_size, α)
+    return query_size
+end
 ############## Maximum Feature Size Per Measure  ##############
+
 
 """
 Calculate maximum feature size for Dice similarity measure.
@@ -95,6 +107,14 @@ Calculate maximum feature size for Overlap similarity measure.
 """
 function maximum_feature_size(measure::Overlap, db::AbstractSimStringDB, query_size, α)
     return min(typemax(Int), maximum(keys(db.string_feature_map)))
+end
+
+
+"""
+Calculate maximum feature size for ExactMatch similarity measure.
+"""
+function maximum_feature_size(measure::ExactMatch, db::AbstractSimStringDB, query_size, α)
+    return query_size
 end
 
 
@@ -131,6 +151,13 @@ function similarity_score(measure::Overlap, X, Y)
 end
 
 
+"""
+Calculate similarity score between X and Y using ExactMatch similarity measure.
+"""
+function similarity_score(measure::ExactMatch, X, Y)
+    return Set(X) == Set(Y) ? 1.0 : 0.0
+end
+
 
 ############## Number of Minimum Overlaps Per Measure  ##############
 """
@@ -166,4 +193,13 @@ using Overlap similarity measure.
 """
 function minimum_overlap(measure::Overlap, query_size, candidate_size, α)
     return ceil(Int, (α * min(query_size, candidate_size)) )
+end
+
+
+"""
+Calculate the minimum overlap (τ) for a query size, candidate size, and α
+using ExactMatch similarity measure.
+"""
+function minimum_overlap(measure::ExactMatch, query_size, candidate_size, α)
+    return query_size
 end

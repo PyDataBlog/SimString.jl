@@ -17,6 +17,8 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Support for unicodes
 - [ ] Custom user defined feature generation methods
 - [ ] Mecab-based tokenizer support
+- [X] Support for building databases directly from text files
+- [ ] Support for persistent databases
 
 ## Suported String Similarity Measures
 
@@ -24,6 +26,7 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Jaccard coefficient
 - [X] Cosine coefficient
 - [X] Overlap coefficient
+- [X] Exact match
 
 ## Installation
 

@@ -16,7 +16,7 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Support for unicodes
 - [ ] Custom user defined feature generation methods
 - [ ] Mecab-based tokenizer support
-- [ ] Support for building databases directly from text files
+- [X] Support for building databases directly from text files
 - [ ] Support for persistent databases
 
 ## Suported String Similarity Measures
@@ -63,6 +63,8 @@ push!(db, "bar");
 push!(db, "fooo");
 
 # Convinient approach is to use an array of strings for multiple entries: `append!(db, ["foo", "bar", "fooo"]);`
+
+# OR: Build database from text files: `append!(db, "YOUR_FILE_NAME.txt");
 
 # Retrieve the closest match(es)
 res = search(Dice(), db, "foo"; α=0.8, ranked=true)

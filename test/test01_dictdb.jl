@@ -15,8 +15,8 @@ using Test
 
     @test collect(keys(db.string_feature_map)) == [5, 6]
 
-    @test collect(values(db.string_feature_map[5])) == vcat( (repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)) )
-    @test collect(values(db.string_feature_map[6])) ==  repeat([Set(["fooo"])], 6)
+    @test collect(values(db.string_feature_map[5])) == vcat((repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)))
+    @test collect(values(db.string_feature_map[6])) == repeat([Set(["fooo"])], 6)
 end
 
 
@@ -41,10 +41,10 @@ end
 
     @test collect(keys(db.string_feature_map)) == [5, 6]
 
-    @test collect(values(db.string_feature_map[5])) == vcat( (repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)) )
-    @test collect(values(db.string_feature_map[6])) ==  repeat([Set(["fooo"])], 6)
+    @test collect(values(db.string_feature_map[5])) == vcat((repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)))
+    @test collect(values(db.string_feature_map[6])) == repeat([Set(["fooo"])], 6)
 
-    @test eltype(collect(keys(db.string_feature_map[5]))) == Tuple{String, Int64}
+    @test eltype(collect(keys(db.string_feature_map[5]))) == Tuple{String,Int64}
 end
 
 
@@ -59,19 +59,19 @@ end
     @test collect(values(db.string_feature_map[9]))[5] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
     @test collect(values(db.string_feature_map[9]))[7] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
 
-    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String, String}, Int64}
+    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String,String},Int64}
 end
 
 
 
 @testset "Test describe functionality" begin
-    db = DictDB(CharacterNGrams(2, " "));
-    append!(db, ["foo", "bar", "fooo"]);
+    db = DictDB(CharacterNGrams(2, " "))
+    append!(db, ["foo", "bar", "fooo"])
 
     # Interact with db
-    search(Dice(), db, "zep"; α=0.8, ranked=true)
+    search(Dice(), db, "zep"; α = 0.8, ranked = true)
 
-    @test describe_collection(db) == (total_collection = 3, avg_num_ngrams = 4.5, total_ngrams = 13)
+    @test describe_collection(db) == (total_collection = 3, avg_size_ngrams = 4.5, total_ngrams = 13)
 end
 
 
@@ -85,10 +85,10 @@ end
 
     @test collect(keys(db.string_feature_map)) == [5, 6]
 
-    @test collect(values(db.string_feature_map[5])) == vcat( (repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)) )
-    @test collect(values(db.string_feature_map[6])) ==  repeat([Set(["fooo"])], 6)
+    @test collect(values(db.string_feature_map[5])) == vcat((repeat([Set(["foo"])], 5)), (repeat([Set(["bar"])], 5)))
+    @test collect(values(db.string_feature_map[6])) == repeat([Set(["fooo"])], 6)
 
-    @test eltype(collect(keys(db.string_feature_map[5]))) == Tuple{String, Int64}
+    @test eltype(collect(keys(db.string_feature_map[5]))) == Tuple{String,Int64}
 end
 
 
@@ -104,7 +104,7 @@ end
     @test collect(values(db.string_feature_map[9]))[5] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
     @test collect(values(db.string_feature_map[9]))[7] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
 
-    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String, String}, Int64}
+    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String,String},Int64}
 
 end
 

@@ -74,7 +74,7 @@ res = search(Dice(), db, "foo"; α=0.8, ranked=true)
 
 # Describe a working database collection
 desc = describe_collection(db)
-# (total_collection = 3, avg_num_ngrams = 4.5, total_ngrams = 13)
+# (total_collection = 3, avg_size_ngrams = 4.5, total_ngrams = 13)
 ```
 
 ## TODO: Benchmarks

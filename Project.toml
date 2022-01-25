@@ -17,6 +17,7 @@ julia = "1"
 [extras]
 Faker = "0efc519c-db33-5916-ab87-703215c3906f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
 
 [targets]
-test = ["Test", "Faker"]
+test = ["Test", "Faker", "Suppressor"]

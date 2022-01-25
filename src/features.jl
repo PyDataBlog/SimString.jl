@@ -188,8 +188,8 @@ append!(db, "./data/test.txt")
 """
 function append!(db::AbstractSimStringDB, file::AbstractString)
     open(file) do f
-        while !eof(f)
-            push!(db, readline(f))
+        for line in eachline(f)
+            push!(db, line)
         end
     end
 end

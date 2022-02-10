@@ -2,6 +2,7 @@ module TestMeasures
 using SimString
 using Test
 using Faker
+using Suppressor
 
 
 @testset "Test Dice Search" begin
@@ -54,6 +55,7 @@ end
 
 end
 
+
 @testset "Test Micro Deep Dive Search" begin
     db = DictDB(CharacterNGrams(2, " "));
     append!(db, ["a", "ab", "abc", "abcd", "abcde"]);
@@ -74,6 +76,17 @@ end
     @test search(Cosine(), db, "abcd", α=0.9, ranked=true) == [("abcd", 1.0)]
     @test search(Cosine(), db, "abcde", α=0.9, ranked=true) == [("abcde", 1.0)]
 end
+
+
+@testset "Test output from show" begin
+    db = DictDB(CharacterNGrams(2, " "));
+    append!(db, ["foo", "bar", "fooo"]);
+
+    expected_out = "DictDB(SimString.CharacterNGrams{Int64, String}(2, \" \"))\nTotal collection: 3\nAverage number of ngram features: 4.5\nTotal number of ngram features: 13\n"
+    r = @capture_out show(db)
+    @test r == expected_out
+end
+
 
 
 

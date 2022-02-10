@@ -87,6 +87,7 @@ Basic summary stats for the DB
 db = DictDB(CharacterNGrams(2, " "));
 append!(db, ["foo", "bar", "fooo"]);
 describe_collection(db)
+(total_collection = 3, avg_size_ngrams = 4.5, total_ngrams = 13)
 
 # Returns
 * NamedTuples: Summary stats for the DB
@@ -98,7 +99,7 @@ function describe_collection(db::DictDB)
 # Total number of strings in collection
 ∑ = length(db.string_collection)
 
-# Average number of ngram features
+# Average size of ngram features
 n = [x for x in keys(db.string_size_map)]
 μ = sum(n) / length(n)
 
@@ -108,7 +109,19 @@ for i in values(db.string_feature_map)
     total_ngrams += length(i)
 end
 
-return (total_collection = ∑, avg_num_ngrams = μ, total_ngrams = total_ngrams)
+return (total_collection = ∑, avg_size_ngrams = μ, total_ngrams = total_ngrams)
+end
+
+
+"""
+Pretty print summary stats for the DB
+"""
+function Base.show(io::IO, x::DictDB)
+    metrics = describe_collection(x)
+    println(io, "DictDB($(x.feature_extractor))")
+    println(io, "Total collection: ", metrics.total_collection)
+    println(io, "Average number of ngram features: ", metrics.avg_size_ngrams)
+    println(io, "Total number of ngram features: ", metrics.total_ngrams)
 end
 
 

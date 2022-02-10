@@ -99,8 +99,25 @@ end
 
 
 """
+    push!(db::AbstractSimStringDB, str::AbstractString)
+
 Add a new item to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
+
+# Arguments:
+* `db`: AbstractSimStringDB - The collection of strings to add to
+* `str`: AbstractString - The string to add to the collection
+
+# Example:
+```julia
+db = DictDB(CharacterNGrams(2, " "));
+push!(db, "foo")
+push!(db, "bar")
+push!(db, "fooo")
+````
+
+# Returns:
+* `db`: AbstractSimStringDB - The collection of strings with the new string added
 """
 function push!(db::AbstractSimStringDB, str::AbstractString)
     # Extract features based on the specified feature extractor
@@ -125,11 +142,54 @@ end
 
 
 """
+    append!(db::AbstractSimStringDB, str::Vector)
+
 Add bulk items to a new or existing collection of strings using
 the custom AbstractSimStringDB type.
+
+# Arguments:
+* db: AbstractSimStringDB - The database to add the strings to
+* str: Vector of AbstractString - Vector/Array of strings to add to the database
+
+# Example:
+```julia
+db = DictDB(CharacterNGrams(2, " "));
+append!(db, ["foo", "foo", "fooo"]);
+```
+
+# Returns:
+* db: AbstractSimStringDB - The database with the new strings added
 """
 function append!(db::AbstractSimStringDB, str::Vector)
     @inbounds @simd for i in str
         push!(db, i)
+    end
+end
+
+
+"""
+    append!(db::AbstractSimStringDB, file::AbstractString)
+
+Add bulk items to a new or existing collection of strings using
+from a file using the custom AbstractSimStringDB type.
+
+# Arguments:
+* `db``: AbstractSimStringDB - The database to add the items to
+* `file`: AbstractString - Path to the file to read from
+
+# Example:
+```julia
+db = DictDB(CharacterNGrams(2, " "));
+append!(db, "./data/test.txt")
+```
+
+# Returns:
+* `db`: AbstractSimStringDB - The database with the items added
+"""
+function append!(db::AbstractSimStringDB, file::AbstractString)
+    open(file) do f
+        for line in eachline(f)
+            push!(db, line)
+        end
     end
 end

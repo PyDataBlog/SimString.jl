@@ -59,7 +59,7 @@ end
     @test collect(values(db.string_feature_map[9]))[5] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
     @test collect(values(db.string_feature_map[9]))[7] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
 
-    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String,String},Int64}
+    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{SubArray{SubString{String}},Int64}
 end
 
 
@@ -104,7 +104,7 @@ end
     @test collect(values(db.string_feature_map[9]))[5] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
     @test collect(values(db.string_feature_map[9]))[7] == Set(["You are a really really really cool dude.", "Sometimes you are not really really cool tho"])
 
-    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{Tuple{String,String},Int64}
+    @test eltype(collect(keys(db.string_feature_map[9]))) == Tuple{SubArray{SubString{String}},Int64}
 
 end
 

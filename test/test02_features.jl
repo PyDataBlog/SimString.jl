@@ -8,7 +8,7 @@ using Test
     @test char_ngram_res[5] == ("pre", 2)
 
     word_ngram_res = SimString.extract_features(WordNGrams(2, " ", " "), "You are a really really really cool dude.")
-    @test word_ngram_res[5] == (("really", "really"), 2)
+    @test word_ngram_res[5] == (["really", "really"], 2)
 end
 
 

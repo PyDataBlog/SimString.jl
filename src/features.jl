@@ -17,50 +17,30 @@ function pad_string(x::AbstractVector, padder::AbstractString)
 end
 
 
-# function pad_string(x::AbstractVector, padder::AbstractString)
-#     y = Vector{eltype(x)}(undef, length(x) + 2)
-#     y[1] = padder
-#     y[end] = padder
-
-#     @inbounds for i in 1:length(x)
-#         y[i+1] = x[i]
-#     end
-#     return y
-# end
-
-
-# """
-# Internal function to generate intial uncounted ngrams on a character level
-# """
-# function init_ngrams(extractor::CharacterNGrams, x, n)
-#     # TODO: Use rule length(x) - n + 1 to initiate non allocated ngrams
-#     map(0:length(x)-n) do i
-#         x[i+1: i+n]
-#     end
-# end
-
-
+"""
+Internal function to generate intial uncounted ngrams on a character level
+"""
 function init_ngrams(extractor::CharacterNGrams, x, n)
     y = Vector{SubString{String}}(undef, length(x)-n+1)
 
-    @inbounds for i in 0:length(x)-n
-        y[i+1] = SubString(x, i+1: i+n)
+    i = 0
+    i1 = nextind(x, 0, 1)
+    i2 = nextind(x, i1, n-1)
+
+    while i2 <= lastindex(x)
+        i += 1
+        y[i] = SubString(x, i1:i2)
+        i1 = nextind(x, i1)
+        i2 = nextind(x, i2)
     end
     return y
 end
 
 
-# """
-# Internal function to generate intial uncounted ngrams on a word level
-# """
-# function init_ngrams(extractor::WordNGrams, x, n)
-#     # TODO: Use rule results = length(x) - n + 1 to initiate non allocated ngrams
-#     map(0:length(x)-n) do i
-#         tuple(String.(x[i+1: i+n])...)
-#     end
-# end
 
-
+"""
+Internal function to generate intial uncounted ngrams on a word level
+"""
 function init_ngrams(extractor::WordNGrams, x, n)
     map(0:length(x)-n) do i
         @view x[i+1: i+n]

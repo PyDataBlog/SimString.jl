@@ -65,8 +65,8 @@ function DictDB(x::WordNGrams)
         x,
         String[],
         DefaultDict{Int, Set{String}}( () -> Set{String}() ),
-        DefaultDict{ Int, DefaultOrderedDict{Tuple{NTuple{x.n, String}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{NTuple{x.n, String}, Int}, Set{String} }(Set{String})),
-        DefaultDict{ Int, DefaultDict{Tuple{NTuple{x.n, String}, Int}, Set{String}} }( () -> DefaultDict{Tuple{NTuple{x.n, String}, Int}, Set{String}}(Set{String}))
+        DefaultDict{ Int, DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String} }(Set{String})),
+        DefaultDict{ Int, DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}} }( () -> DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}(Set{String}))
     )
 end
 

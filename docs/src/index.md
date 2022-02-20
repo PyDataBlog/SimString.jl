@@ -7,16 +7,18 @@ CurrentModule = SimString
 Documentation for [SimString](https://github.com/PyDataBlog/SimString.jl).
 
 A native Julia implementation of the CPMerge algorithm, which is designed for approximate string matching.
-This package is be particulary useful for natural language processing tasks which demand the retrieval of strings/texts from a very large corpora (big amounts of texts). Currently, this package supports both Character and Word based N-grams feature generations and there are plans to open the package up for custom user defined feature generation methods.
+This package is be particulary useful for natural language processing tasks which require the retrieval of strings/texts from a very large corpora (big amounts of texts). Currently, this package supports both Character and Word based N-grams feature generations and there are plans to open the package up for custom user defined feature generation methods.
+
+CPMerge Paper: [https://aclanthology.org/C10-1096/](https://aclanthology.org/C10-1096/)
 
 ## Features
 
 - [X] Fast algorithm for string matching
 - [X] 100% exact retrieval
 - [X] Support for unicodes
+- [X] Support for building databases directly from text files
 - [ ] Custom user defined feature generation methods
 - [ ] Mecab-based tokenizer support
-- [X] Support for building databases directly from text files
 - [ ] Support for persistent databases
 
 ## Suported String Similarity Measures
@@ -82,6 +84,7 @@ desc = describe_collection(db)
 ## Release History
 
 - 0.1.0 Initial release.
+- 0.2.0 Added support for unicodes
 
 ```@index
 ```

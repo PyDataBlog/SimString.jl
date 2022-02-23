@@ -10,7 +10,6 @@ end
 Internal function to pad AbstractVector types with specified padder
 """
 function pad_string(x::AbstractVector, padder::AbstractString)
-    # TODO: Insert a padder as the first and last element of x with undef
     insert!(x, 1, padder)
     push!(x, padder)
     return x
@@ -96,7 +95,6 @@ end
 Internal function to count and pad generated character-level ngrams (including duplicates)
 """
 function cummulative_ngram_count(x)
-    # TODO: Use length of x initiate non allocated ngrams
     counter = Dict{eltype(x), Int}()
 
     return map(x) do val

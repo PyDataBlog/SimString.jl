@@ -15,9 +15,9 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] Fast algorithm for string matching
 - [X] 100% exact retrieval
 - [X] Support for unicodes
+- [X] Support for building databases directly from text files
 - [ ] Custom user defined feature generation methods
 - [ ] Mecab-based tokenizer support
-- [X] Support for building databases directly from text files
 - [ ] Support for persistent databases
 
 ## Suported String Similarity Measures
@@ -41,7 +41,7 @@ pkg> add SimString
 The few (and selected) brave ones can simply grab the current experimental features by simply adding the master branch to your development environment after invoking the package manager with `]`:
 
 ```julia
-pkg> add SimString#master
+pkg> add SimString#main
 ```
 
 You are good to go with bleeding edge features and breakages!

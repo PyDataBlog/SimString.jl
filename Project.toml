@@ -1,7 +1,7 @@
 name = "SimString"
 uuid = "2e3c4037-312d-4650-b9c0-fcd0fc09aae4"
 authors = ["Bernard Brenyah"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 CircularArrays = "7a955b69-7140-5f4e-a0ed-f168c5e2e749"

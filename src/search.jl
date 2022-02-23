@@ -102,11 +102,6 @@ function search!(measure::AbstractSimilarityMeasure, db_collection::DictDB, quer
     # Generate features from query string
     features = extract_features(db_collection.feature_extractor, query)
 
-    # Metadata from the generated features (length, min & max sizes)
-    # length_of_features = length(features)
-    # min_feature_size = minimum_feature_size(measure, length_of_features, α)
-    # max_feature_size = maximum_feature_size(measure, db_collection, length_of_features, α)
-
     results = String[]
 
     # Generate and return results from the potential candidate size pool

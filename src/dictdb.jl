@@ -129,7 +129,7 @@ end
 Internal function to lookup feature sets by size and feature
 """
 function lookup_feature_set_by_size_feature(db::DictDB, size, feature)
-    if feature ∉ keys(db.lookup_cache[size])
+    if !haskey(db.lookup_cache[size], feature)
         db.lookup_cache[size][feature] = get(db.string_feature_map[size], feature, Set{String}())
     end
     return db.lookup_cache[size][feature]

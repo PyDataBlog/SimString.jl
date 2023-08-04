@@ -45,6 +45,19 @@ end
 
 
 """
+    Internal function for generating a base DictDB object for WordNGrams and MecabNGrams
+"""
+function generate_base_dict_db(x)
+    DictDB(
+        x,
+        String[],
+        DefaultDict{Int, Set{String}}( () -> Set{String}() ),
+        DefaultDict{ Int, DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String} }(Set{String})),
+        DefaultDict{ Int, DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}} }( () -> DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}(Set{String}))
+    )
+end
+
+"""
     DictDB(x::WordNGrams)
 
 Initialize a dict DB with additional containers and Metadata for WordNGrams
@@ -60,15 +73,7 @@ db = DictDB(WordNGrams(2, " ", " "))
 # Returns
 * `DictDB`: A DictDB object with additional containers and Metadata for WordNGrams
 """
-function DictDB(x::WordNGrams)
-    DictDB(
-        x,
-        String[],
-        DefaultDict{Int, Set{String}}( () -> Set{String}() ),
-        DefaultDict{ Int, DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String} }(Set{String})),
-        DefaultDict{ Int, DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}} }( () -> DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}(Set{String}))
-    )
-end
+DictDB(x::WordNGrams) = generate_base_dict_db(x)
 
 
 
@@ -88,15 +93,8 @@ db = DictDB(MecabNGrams(2, " ", Mecab()))
 # Returns
 * `DictDB`: A DictDB object with additional containers and Metadata for MecabNGrams
 """
-function DictDB(x::MecabNGrams)
-    DictDB(
-        x,
-        String[],
-        DefaultDict{Int, Set{String}}( () -> Set{String}() ),
-        DefaultDict{ Int, DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String} }(Set{String})),
-        DefaultDict{ Int, DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}} }( () -> DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}(Set{String}))
-    )
-end
+DictDB(x::MecabNGrams) = generate_base_dict_db(x)
+
 
 
 

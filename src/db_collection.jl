@@ -12,8 +12,6 @@ Abstract type for feature extraction structs
 abstract type FeatureExtractor end
 
 
-# Feature Extraction Definitions
-
 """
 Feature extraction on character-level ngrams
 """

@@ -36,11 +36,10 @@ function init_ngrams(extractor::CharacterNGrams, x, n)
 end
 
 
-
 """
-Internal function to generate intial uncounted ngrams on a word level
+Internal function to generate intial uncounted word ngrams on a word level
 """
-function init_ngrams(extractor::WordNGrams, x, n)
+function init_ngrams(extractor, x, n)
     map(0:length(x)-n) do i
         @view x[i+1: i+n]
     end
@@ -48,17 +47,9 @@ end
 
 
 """
-Internal function to create character-level ngrams features from an AbstractString
+Internal function to create counted ngrams
 """
-function n_grams(extractor::CharacterNGrams, x, n)
-    return cummulative_ngram_count(init_ngrams(extractor, x, n))
-end
-
-
-"""
-Internal function to create word-level ngrams from an AbstractVector
-"""
-function n_grams(extractor::WordNGrams, x, n)
+function n_grams(extractor, x, n)
     return cummulative_ngram_count(init_ngrams(extractor, x, n))
 end
 
@@ -88,6 +79,24 @@ function extract_features(extractor::WordNGrams, str)
     words_split = split(str, extractor.splitter)
     padded_words = pad_string(words_split, extractor.padder)
     return make_zero_index_circular_array(n_grams(extractor, padded_words, extractor.n))
+end
+
+
+"""
+Internal function to generate Mecab word-level ngrams features from an AbstractString
+"""
+function extract_features(extractor::MecabNGrams, str)
+    words_split = tokenize(extractor.tokenizer, str)
+    padded_words = pad_string(words_split, extractor.padder)
+    return make_zero_index_circular_array(n_grams(extractor, padded_words, extractor.n))
+end
+
+
+"""
+Internal function to tokenize a string using Mecab
+"""
+function tokenize(tokenizer::Mecab, str::AbstractString)
+    return parse_surface(tokenizer, str)
 end
 
 

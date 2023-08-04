@@ -33,3 +33,12 @@ struct WordNGrams{T1<:Int, T2<:AbstractString} <: FeatureExtractor
 end
 
 
+
+"""
+Feature extraction based on mecab word-level ngrams
+"""
+struct MecabNGrams{T1<:Int, T2<:AbstractString, T3<:Mecab} <: FeatureExtractor
+    n::T1           # number of n-grams to extract
+    padder::T2      # string to use to pad n-grams
+    tokenizer::T3   # Mecab tokenizer to use
+end

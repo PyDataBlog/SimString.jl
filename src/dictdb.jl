@@ -72,6 +72,34 @@ end
 
 
 
+"""
+    DictDB(x::MecabNGrams)
+
+Initialize a dict DB with additional containers and Metadata for MecabNGrams
+
+# Arguments
+* `x`: MecabNGrams object
+
+# Example
+```julia
+db = DictDB(MecabNGrams(2, " ", Mecab()))
+```
+
+# Returns
+* `DictDB`: A DictDB object with additional containers and Metadata for MecabNGrams
+"""
+function DictDB(x::MecabNGrams)
+    DictDB(
+        x,
+        String[],
+        DefaultDict{Int, Set{String}}( () -> Set{String}() ),
+        DefaultDict{ Int, DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}  }( () -> DefaultOrderedDict{Tuple{SubArray{SubString{String}}, Int}, Set{String} }(Set{String})),
+        DefaultDict{ Int, DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}} }( () -> DefaultDict{Tuple{SubArray{SubString{String}}, Int}, Set{String}}(Set{String}))
+    )
+end
+
+
+
 
 ################################## DictDB UTIL Functions  ############################
 """
@@ -96,20 +124,20 @@ describe_collection(db)
 """
 function describe_collection(db::DictDB)
 
-# Total number of strings in collection
-∑ = length(db.string_collection)
+    # Total number of strings in collection
+    ∑ = length(db.string_collection)
 
-# Average size of ngram features
-n = [x for x in keys(db.string_size_map)]
-μ = sum(n) / length(n)
+    # Average size of ngram features
+    n = [x for x in keys(db.string_size_map)]
+    μ = sum(n) / length(n)
 
-# Total number of ngram features
-total_ngrams = 0
-for i in values(db.string_feature_map)
-    total_ngrams += length(i)
-end
+    # Total number of ngram features
+    total_ngrams = 0
+    for i in values(db.string_feature_map)
+        total_ngrams += length(i)
+    end
 
-return (total_collection = ∑, avg_size_ngrams = μ, total_ngrams = total_ngrams)
+    return (total_collection = ∑, avg_size_ngrams = μ, total_ngrams = total_ngrams)
 end
 
 

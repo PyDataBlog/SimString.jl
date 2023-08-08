@@ -18,8 +18,7 @@ CPMerge Paper: [https://aclanthology.org/C10-1096/](https://aclanthology.org/C10
 - [X] Support for unicodes
 - [X] Support for building databases directly from text files
 - [X] Mecab-based tokenizer support for Japanese
-- [ ] Custom user defined feature generation methods
-- [ ] Support for persistent databases
+- [ ] Support for persistent databases like MongoDB
 
 ## Suported String Similarity Measures
 
@@ -87,6 +86,7 @@ desc = describe_collection(db)
 
 - 0.1.0 Initial release.
 - 0.2.0 Added support for unicodes
+- 0.3.0 Added Japanese support via Mecab
 
 ```@index
 ```

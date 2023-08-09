@@ -1,5 +1,6 @@
 module TestDBCollection
 using SimString
+using Wakame: Mecab
 using Test
 
 
@@ -109,6 +110,15 @@ end
 end
 
 
+
+@testset "Test mecab insert" begin
+    db = DictDB(MecabNGrams(2, " ", Mecab()))
+    append!(db, ["pythonが大好きです", "I am a cat."])
+
+    @test db.string_collection == ["pythonが大好きです", "I am a cat."]
+    @test db.string_size_map[5] == Set(["pythonが大好きです"])
+    @test db.string_size_map[6] == Set(["I am a cat."])
+end
 
 
 end  # module

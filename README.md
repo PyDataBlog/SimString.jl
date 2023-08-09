@@ -16,9 +16,8 @@ This package is be particulary useful for natural language processing tasks whic
 - [X] 100% exact retrieval
 - [X] Support for unicodes
 - [X] Support for building databases directly from text files
-- [ ] Custom user defined feature generation methods
-- [ ] Mecab-based tokenizer support
-- [ ] Support for persistent databases
+- [X] Mecab-based tokenizer support
+- [ ] Support for persistent databases like MongoDB
 
 ## Suported String Similarity Measures
 

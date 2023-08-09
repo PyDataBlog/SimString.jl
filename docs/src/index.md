@@ -17,9 +17,8 @@ CPMerge Paper: [https://aclanthology.org/C10-1096/](https://aclanthology.org/C10
 - [X] 100% exact retrieval
 - [X] Support for unicodes
 - [X] Support for building databases directly from text files
-- [ ] Custom user defined feature generation methods
-- [ ] Mecab-based tokenizer support
-- [ ] Support for persistent databases
+- [X] Mecab-based tokenizer support for Japanese
+- [ ] Support for persistent databases like MongoDB
 
 ## Suported String Similarity Measures
 
@@ -59,7 +58,9 @@ pkg> free SimString
 using SimString
 
 # Inilisate database and some strings
-db = DictDB(CharacterNGrams(2, " "));
+db = DictDB(CharacterNGrams(2, " ")); 
+# OR: db = DictDB(WordNGrams(2, " ")); for word based ngrams 
+# OR  db = DictDB(MecabNGrams(2, " ", Mecab())) for Japanese ngrams. Requires installation of Mecab
 push!(db, "foo");
 push!(db, "bar");
 push!(db, "fooo");
@@ -85,6 +86,7 @@ desc = describe_collection(db)
 
 - 0.1.0 Initial release.
 - 0.2.0 Added support for unicodes
+- 0.3.0 Added Japanese support via Mecab
 
 ```@index
 ```
